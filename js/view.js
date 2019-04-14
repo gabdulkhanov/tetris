@@ -59,7 +59,7 @@
 			this.ctx.shadowOffsetX = 5;
 			this.ctx.shadowOffsetY = 5;
 			this.ctx.shadowBlur = 10;
-			this.ctx.fillStyle = "#090";
+			this.ctx.fillStyle = "#009";
 			this.ctx.fillText("Game over", this.canv.width / 2, this.canv.height / 2);
 		};
 	}
