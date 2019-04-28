@@ -1,5 +1,15 @@
 var Model = function() {
 	
+	this.getset_line = {
+		a: 0,
+		get num() {
+			return this.a;
+		},
+		set num(v) {
+			this.a += v;
+		}
+	}
+	
 	this.stolknovenie = function stolknovenie(mas1, mas2, ptx, pty) {
 		var f = false;
 		for (let i = mas1.length - 1; i >=0 ; i--) {
@@ -44,25 +54,38 @@ var Model = function() {
 		return new_mas;
 	}
 	
+	this.reverse_rotate90 = function reverse_rotate90(mas) {
+		var new_mas = [];
+		for (let m = 0; m < mas.length; m++)
+		{
+			new_mas[m] = [];
+			for (let n = 0; n < mas[m].length; n++)
+			{
+				new_mas[m][n] = mas[n][mas[m].length-1-m];				
+			}			
+		}
+		return new_mas;
+	}
+	
 	this.isRotate = function isRotate(mas1, mas2, ptx, pty) {
 		return (this.stolknovenie_x(mas1, mas2, ptx, pty, -1)&&(this.stolknovenie_x(mas1, mas2, ptx, pty, 1)));	
 	}
 	
-	this.instanceRect = function(mas1, mas2, ptx, pty, l, r) {
-		var f1 = 0, max = 0;
-		for (let m = 0; m < mas1.length; m++) {	
-			f1 = 0;
-			for (let n = 0; n < mas1[m].length; n++) {
-				if ((mas1[m][n])&&(mas2[pty/30+m][ptx/30+n])) f1++;
-			}
-			if (max < f1) max = f1;
+	this.instanceRect = function(mas1, mas2, ptx, pty) {
+		var new_arr = this.rotate90(mas1);		
+		var flag = false;
+		for (let m = 0; m < new_arr.length; m++) {			
+			for (let n = 0; n < new_arr[m].length; n++) {
+				if ((new_arr[m][n])&&(mas2[pty/30+m][ptx/30+n])) flag = true;
+			}			
+		}	
+		if (flag) {
+			new_arr = this.reverse_rotate90(new_arr);
 		}
-		if (l) ptx+=(30*max);		
-		if (r) ptx-=(30*max);
-		return ptx;
+		return flag;
 	}
 	
-	this.line = function line(mas) {
+	this.line = (function line(mas) {
 		var f, k = 0;
 		for (let m = mas.length - 2; m > 1; m--) {
 			f = true;
@@ -78,9 +101,9 @@ var Model = function() {
 					k++;
 				}				
 			}
-		}
-		return k;
-	}
+		}		
+		this.getset_line.num = k;
+	});
 	
 	this.gameOver = function gameOver(arr) {
 		var flag = false;	
@@ -88,7 +111,11 @@ var Model = function() {
 			if (arr[2][n]) flag = true;
 		}		
 		return flag;
-	}
+	}	
 	
+	this.you_win = function(q) {
+		if ( this.getset_line.a >= q ) return true;
+		else return false;
+	}
 }
 
