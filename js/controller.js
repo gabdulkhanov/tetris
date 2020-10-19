@@ -1,7 +1,5 @@
 
-window.onload = function() {
-	
-	
+window.onload = function() {	
 	
 	var figura = [
 					 [[2,2,0,0],
@@ -44,36 +42,37 @@ window.onload = function() {
 					   [2,0,2,0],
 					   [0,0,0,0]]];	
 	
-	var pole = [[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,0,0,0,0,0,0,0,0,1,1],
-				[1,1,1,1,1,1,1,1,1,1,1,1]];
+	var pole = [[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
+				[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
 	
 	
 	var timer, timeout;
 	var
 		max_k = 20, /***максимальное кол-во очков***/
 		fps = 2,
-		pt_x = 120,
+		pt_x = 180,
 		pt_y = 0,
 		rnd_color = 0,
-		rnd = Math.floor( Math.random()*figura.length ), /***случайная фигура***/	
+		rnd = Math.floor( Math.random()*figura.length ), /***случайная фигура***/
+		nextrnd = Math.floor( Math.random()*figura.length ),
 		start = pause = stolknovenie_y = false,		
 		canv = document.getElementById('tetris'),	
 		ctx = canv.getContext("2d");
@@ -86,17 +85,16 @@ window.onload = function() {
 	var right = document.getElementById('right');
 	var up = document.getElementById('up');
 	var down = document.getElementById('down');
+	var btn_pause = document.getElementById('pause');
+	
 	
 	
 	var md = new Model();	
-	var vw = new View(canv, ctx, 360, 600);	
-	
-	//vw.message("Нажмите ЛКМ, чтобы начать игру", 30);	
+	var vw = new View(canv, ctx, 450, 600);	
 	
 	vw.clearCanvas();
 	vw.otrisovka(figura[rnd], pole, pt_x, pt_y, md.getset_line.a);
-		
-	
+	vw.nextFigure(figura[nextrnd]);
 	
 	
 	/****УПРАВЛЕНИЕ******/
@@ -179,6 +177,12 @@ window.onload = function() {
 	right.onclick = function() { right_figure(); }
 	down.onmousedown = function() { down_figure(); }
 	down.onmouseup = function() { cancel_down_figure(); }
+	btn_pause.onclick = function() {
+		if ((!md.gameOver(pole)) && (!md.you_win(max_k))) {
+				pause = !pause;
+				step();
+			}
+	}
 	
 	
 	
@@ -196,7 +200,7 @@ window.onload = function() {
 			
 			
 			/***пауза***/
-			if (event.keyCode == 80) {
+			if ((event.keyCode == 80)&&(!md.gameOver(pole)) && (!md.you_win(max_k))) {
 				pause = !pause;
 				step();
 			}		
@@ -224,7 +228,8 @@ window.onload = function() {
 			}, 1000 / fps);	
 
 			vw.otrisovka(figura[rnd], pole, pt_x, pt_y);		
-			level.innerHTML = "Очки: " + md.getset_line.a;
+			level.innerHTML = "Очки: " + md.getset_line.a;		
+			
 			
 			if (stolknovenie_y) {
 				
@@ -235,14 +240,20 @@ window.onload = function() {
 					for (let m = 0; m < figura[elem].length; m++)
 						for (let n = 0; n < figura[elem].length; n++)
 							if (figura[elem][m][n] !== 0) figura[elem][m][n] = rnd_color;	
-						
-					md.line(pole);								
-					stolknovenie_y = false;					
-					pt_x = 120;
-					pt_y = 0;					
-					rnd = Math.floor(Math.random()*figura.length);	
+				
+				
+				vw.colorFullLines(pole, 30);				
+				md.line(pole);				
+				rnd = nextrnd;		
+				nextrnd = Math.floor(Math.random()*figura.length);
+				vw.nextFigure(figura[nextrnd]);
+				
+				stolknovenie_y = false;					
+				pt_x = 180;
+				pt_y = 0;					
+				
 
-				}
+			}
 		}
 		else if (pause) {
 			vw.message("Pause", 40);
@@ -267,7 +278,7 @@ window.onload = function() {
 	
 	new_game.onclick = function() {		
 		if (!start) {
-			new_game.innerHTML = "Новая игра"; 
+			new_game.innerHTML = "New game"; 
 			start = true;
 			step();			
 		}
@@ -275,7 +286,7 @@ window.onload = function() {
 			
 			pause = false; 
 			stolknovenie_y = false;				
-			pt_x = 120;
+			pt_x = 180;
 			pt_y = 0;					
 			rnd = Math.floor(Math.random()*figura.length);	
 			md.clear_pole(pole);
@@ -287,7 +298,7 @@ window.onload = function() {
 		}
 		else {
 			stolknovenie_y = false;				
-			pt_x = 120;
+			pt_x = 180;
 			pt_y = 0;					
 			rnd = Math.floor(Math.random()*figura.length);	
 			md.clear_pole(pole);

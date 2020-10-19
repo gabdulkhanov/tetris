@@ -9,13 +9,16 @@
 
 <body>
 	<div class="container">
+		
 		<div class="container_header">
 			<canvas id="tetris">canvas не работает</canvas>	
 			
 			<div class="setting">
 				<div class="new_game" id="new_game">
-					Начать игру
+					Start
 				</div>
+				<div id="nextfigure" class="nextfigure"></div>
+				
 				<div class="level" id="level">
 					Очки: 0
 				</div>
@@ -30,8 +33,11 @@
 					
 					<div class="btn up" id="up">↑</div>
 					<div class="btn down" id="down">↓</div>
+					
+					<div class="pause" id="pause">Pause</div>
 				</div>
 			</div>
+			<div class="errorgame">высота экрана меньше 650px</div>
 		</div>
 	</div>
 	<script src="js/model.js"></script>	

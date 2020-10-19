@@ -1,37 +1,77 @@
 body {
 	background-color: #333;
 }
-.container {
-	width: 600px;
-	height: 670px;
-	background-color: #ddd;
+.container {		
+		width: 690px;
+		height: 640px;
+		background-color: #ddd;		
+	}
+
+@media screen and (min-height: 650px) {
+	.container {
+		display: block;			
+	}
+	.errorgame {
+		display: none;
+	}
+}
+
+@media screen and (max-height: 650px) {	
+	.errorgame {
+		display: block;
+		position: absolute;
+		top: 100px;
+		left: 50px;	
+		z-index: 9;
+		color: red;
+		font-family: Arial sans-serif;
+		font-size: 24px;	
+	}
 }
 
 .container_header{		
 	display: flex;	
-	padding: 20px;	
+	padding: 20px 20px 0 20px;	
 }
 
 .new_game {
-	width: 150px;
+	width: 120px;
 	height: 50px;
-	background-color: #ff0;
+	background-color: #f4f505;
 	color: #000;
 	border: 1px solid black;
-	border-radius: 10px;
+	border-radius: 30px;
 	font: 20px sans-serif;
 	text-align: center;
 	line-height: 2.5;
 	cursor: pointer;
 }
 .new_game:hover {
-	background-color: #ee0;
+	background-color: #f41806;
 }
+.nextfigure {
+	display: flex;
+	flex-wrap: wrap;
+	width: 120px;
+	height: 120px;
+	border: 1px solid black;
+	margin-top: 15px;
+}
+.excel {	
+	width: 30px;
+	height: 30px;
+	outline: 1px solid black;
+	background-color: #eee;
+}
+.active {
+	background-color: #333;
+}
+
 
 .setting {
 	display: flex;	
 	flex-direction: column;	
-	padding: 20px;
+	padding: 10px 10px 10px 20px;
 	
 }
 .level, .control {
@@ -44,23 +84,41 @@ body {
 	width: 150px;	
 	height: 200px;
 	flex-wrap: wrap;
-	margin-top: 50px;
+	margin-top: 20px;
 }
 .btn {
 	margin: 10px;
 	width: 50px;
 	height: 50px;
-	outline: 1px solid black;
-	background-color: #bbb;
+	border: 1px solid black;
+	background-color: #18f908;
 	text-align: center;
 	font: 24px Arial sans-serif;
 	line-height: 1.8;
 	font-weight: 900;
 	cursor: pointer;
+	border-radius: 5px;
 }
 .btn:hover {
-	background-color: #aaa;
+	background-color: #f41806;
 }
+.pause {
+	margin: 10px;
+	width: 120px;
+	height: 50px;
+	border: 1px solid black;
+	background-color: #0611c9;
+	text-align: center;
+	font: 24px Arial sans-serif;
+	line-height: 1.8;
+	font-weight: 900;
+	cursor: pointer;
+	border-radius: 30px;
+}
+.pause:hover {
+	background-color: #f41806;
+}
+
 
 
 
